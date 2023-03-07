@@ -1,0 +1,9 @@
+.startTestButton {
+  background-color: black;
+  color: white;
+}
+.Homepage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

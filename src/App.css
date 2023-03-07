@@ -7,6 +7,27 @@
   pointer-events: none;
 }
 
+.Landing {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.codeCompiler {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 75%;
+}
+.questionsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 25%;
+  height: 95vh;
+  background-color: #61dafb;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
