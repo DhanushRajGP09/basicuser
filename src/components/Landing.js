@@ -200,6 +200,37 @@ const Landing = () => {
     });
   };
 
+  const [completed, setCompleted] = useState(4);
+  const [hour, setHour] = useState(1);
+  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(0);
+  const [content, setContent] = useState(false);
+  const [questionWidth, setQuestionWidth] = useState("4%");
+
+  useEffect(() => {
+    let myInterval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      }
+      if (seconds === 0) {
+        if (minutes === 0) {
+          if (hour === 0) {
+            clearInterval(myInterval);
+          } else {
+            setMinutes(60);
+            setHour(hour - 1);
+          }
+        } else {
+          setMinutes(minutes - 1);
+          setSeconds(59);
+        }
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  });
+
   return (
     <div className="Landing">
       <ToastContainer
@@ -213,50 +244,175 @@ const Landing = () => {
         draggable
         pauseOnHover
       />
-
-      <div className="questionsContainer"></div>
-      <div className="codeCompiler">
-        <div className="flex flex-row">
-          <div className="px-4 py-2">
-            <LanguagesDropdown onSelectChange={onSelectChange} />
-          </div>
-          <div className="px-4 py-2">
-            <ThemeDropdown
-              handleThemeChange={handleThemeChange}
-              theme={theme}
-            />
+      <div className="landingHeader">
+        RoboEarth
+        <div className="totalCompletedDiv">
+          {completed}/5 completed
+          <div className="totalIndicator">
+            <div
+              className="completedIndicator"
+              style={{ width: `${completed * 20}%` }}
+            ></div>
           </div>
         </div>
+        <div className="testTimer">
+          {hour} : {minutes} : {seconds}
+        </div>
+        <button className="endTestButton">End Test</button>
+      </div>
 
-        <div className="flex flex-row space-x-4 items-start px-4 py-4">
-          <div className="flex flex-col w-full h-full justify-start items-end">
-            <CodeEditorWindow
-              code={code}
-              onChange={onChange}
-              language={language?.value}
-              theme={theme.value}
-            />
+      <div className="landingBody">
+        <div
+          className="questionsContainer"
+          style={{ width: `${questionWidth}` }}
+        >
+          <div className="questionNumberContainer">
+            <span
+              className="questionNumber"
+              onClick={() => {
+                setQuestionWidth("70%");
+                setContent(true);
+              }}
+            >
+              1
+            </span>
+            <span
+              className="questionNumber"
+              onClick={() => {
+                setQuestionWidth("70%");
+                setContent(true);
+              }}
+            >
+              2
+            </span>
+            <span
+              className="questionNumber"
+              onClick={() => {
+                setQuestionWidth("70%");
+                setContent(true);
+              }}
+            >
+              3
+            </span>
+            <span
+              className="questionNumber"
+              onClick={() => {
+                setQuestionWidth("70%");
+                setContent(true);
+              }}
+            >
+              4
+            </span>
+            <span
+              className="questionNumber"
+              onClick={() => {
+                setQuestionWidth("70%");
+                setContent(true);
+              }}
+            >
+              5
+            </span>
           </div>
-
-          <div className="right-container flex flex-shrink-0 w-[37%] flex-col">
-            <OutputWindow outputDetails={outputDetails} />
-            <div className="flex flex-col items-end">
-              <CustomInput
-                customInput={customInput}
-                setCustomInput={setCustomInput}
-              />
-              <button
-                onClick={handleCompile}
-                disabled={!code}
-                className={classnames(
-                  "mt-4 bg-green-400 z-10 rounded-md  px-4 py-2 hover:shadow transition duration-200 text-white flex-shrink-0 font-semibold",
-                  !code ? "opacity-50" : ""
-                )}
-              >
-                {processing ? "Processing..." : "Compile and Execute"}
-              </button>
+          <div
+            className="questionContentContainer"
+            style={{ display: content ? "flex" : "none" }}
+          >
+            <div
+              className="closeContainer"
+              onClick={() => {
+                setQuestionWidth("4%");
+                setContent(false);
+              }}
+            >
+              x
             </div>
-            {outputDetails && <OutputDetails outputDetails={outputDetails} />}
+            <div className="detailedQuestion">
+              1.sum of three numbers asdasdas asdasdsd asdasdasd asddasd asdasd
+              sad asdasdasdasdasd
+            </div>
+            <div className="detailedQuestionDescription">
+              asdasdsad sadasdasd asdasdsadasd sdasdasdasdasda asdasdasdasdasd
+              dasdasdasdasdasd asdasdaddddddddddddddddddddddddd
+              saaaaaaaaaaaaaaaaaa saaaaaaaaaaaaaaaaaaa
+              asddddddddddddddddddddddddddddd saaaaaaaaaaaa saaaaaaaaaaaaaaa
+              asds
+            </div>
+            <div className="samplesContainer">
+              <div className="sampleInputContainer">
+                Sample Input
+                <div className="sample">25</div>
+              </div>
+              <div className="sampleOutputContainer">
+                Sample Output
+                <div className="sample">5</div>
+              </div>
+            </div>
+            <div className="detailedQuestionExplanation">
+              <span style={{ fontWeight: "bold" }}>Explanation</span>
+              asdasdsad sadasdasd asdasdsadasd sdasdasdasdasda asdasdasdasdasd
+              dasdasdasdasdasd asdasdaddddddddddddddddddddddddd
+              saaaaaaaaaaaaaaaaaa saaaaaaaaaaaaaaaaaaa
+              asddddddddddddddddddddddddddddd saaaaaaaaaaaa saaaaaaaaaaaaaaa
+              asds
+            </div>
+          </div>
+        </div>
+        <div className="codeCompiler">
+          <div className="selectedQuestionDiv">1.sum of three numbers</div>
+          <div className="selectedQuestionCompilerDiv">
+            <div className="flex flex-row">
+              <div className="px-4 py-2 ">
+                <LanguagesDropdown onSelectChange={onSelectChange} />
+              </div>
+              <div className="px-4 py-2">
+                <ThemeDropdown
+                  handleThemeChange={handleThemeChange}
+                  theme={theme}
+                />
+              </div>
+            </div>
+            <div
+              className="flex flex-row space-x-4 items-start px-4 py-4"
+              id="compilerMainDiv"
+            >
+              <div
+                className="flex flex-col w-full h-full justify-start items-end"
+                id="codeEditor"
+              >
+                <CodeEditorWindow
+                  code={code}
+                  onChange={onChange}
+                  language={language?.value}
+                  theme={theme.value}
+                />
+              </div>
+
+              <div
+                className="right-container flex flex-shrink-0 w-[30%] flex-col"
+                id="inputOutputDiv"
+              >
+                <div className="flex flex-col items-end">
+                  <CustomInput
+                    customInput={customInput}
+                    setCustomInput={setCustomInput}
+                  />
+                  <button
+                    onClick={handleCompile}
+                    disabled={!code}
+                    className={classnames(
+                      "mt-4 bg-green-400 z-10 rounded-md  px-4 py-2 hover:shadow transition duration-200 text-white flex-shrink-0 font-semibold",
+                      !code ? "opacity-50" : ""
+                    )}
+                  >
+                    {processing ? "Processing..." : "Compile and Execute"}
+                  </button>
+                </div>
+                <OutputWindow outputDetails={outputDetails} />
+                {outputDetails && (
+                  <OutputDetails outputDetails={outputDetails} />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
