@@ -91,7 +91,9 @@
 }
 #inputOutputDiv {
   display: flex;
-  width: 30%;
+  width: 85%;
+  justify-content: space-between;
+  gap: 2%;
 }
 
 .selectedQuestionDiv {
@@ -236,7 +238,7 @@
   width: 50px;
   cursor: pointer;
   font-weight: bold;
-  border-radius: 50px;
+
   border: 1px solid;
   height: auto;
   background-color: #233752;
@@ -252,10 +254,101 @@
   width: 99%;
   font-size: 20px;
 }
+.inputOutputDiv {
+  display: flex;
+  width: 90%;
+  height: auto;
+  align-items: flex-start;
+  gap: 5%;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.customInput {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 1%;
+}
+.testCasesDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 30vh;
+  margin-top: 0.5%;
+  font-size: 20px;
+  padding-top: 1%;
+  border-radius: 5px;
+  padding-left: 1%;
+  border: 2px solid rgb(26, 56, 64);
+  background-color: #233752;
+  color: white;
+  transition: height 3s;
+}
+.testCasesDiv:hover {
+  height: 30vh;
+}
+.case1 {
+  height: 4vh;
+  width: 98%;
+  display: flex;
+  padding-left: 1%;
+  padding-right: 1%;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(193, 193, 193, 0.702);
+}
+.cases {
+  height: auto;
+  width: 98%;
+  display: flex;
+  padding-left: 1%;
+  padding-right: 1%;
+  align-items: center;
+  font-weight: 800;
+  font-family: "Times New Roman", Times, serif;
+  justify-content: space-between;
+  background-color: coral;
+  color: white;
+}
+.resultsSubmitContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+  width: 100%;
+}
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+
+  padding-left: 2%;
+
+  padding-right: 2%;
+  background-color: rgb(210, 43, 43);
+  border-radius: 10px;
+
+  color: white;
+  margin-top: 2%;
+  width: 20%;
+}
+.submitButton:hover {
+  border: 2px solid lightgray;
+}
 
 .questionNumber:hover {
   background-color: white;
   color: black;
+}
+.detailedQuestionHeading {
+  font-size: 20px;
+  width: 99%;
+  font-weight: bold;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .questionsContainer:hover {

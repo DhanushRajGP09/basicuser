@@ -15,6 +15,14 @@ import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
+import { useNavigate } from "react-router-dom";
+import EndModal from "./Modals/EndModal/EndModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addUniqueNumber,
+  getQuestions,
+  getUniqueNumber,
+} from "../features/Questions/QuestionsSlice";
 
 const javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
@@ -53,7 +61,7 @@ const Landing = () => {
   const [processing, setProcessing] = useState(null);
   const [theme, setTheme] = useState("cobalt");
   const [language, setLanguage] = useState(languageOptions[0]);
-
+  const [showtestcases, setShowTestCases] = useState(false);
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
 
@@ -206,6 +214,8 @@ const Landing = () => {
   const [seconds, setSeconds] = useState(0);
   const [content, setContent] = useState(false);
   const [questionWidth, setQuestionWidth] = useState("4%");
+  const navigate = useNavigate();
+  const [endmodal, setEndModal] = useState(false);
 
   useEffect(() => {
     let myInterval = setInterval(() => {
@@ -231,8 +241,26 @@ const Landing = () => {
     };
   });
 
+  const getquestion = useSelector(getQuestions);
+  const unique = useSelector(getUniqueNumber);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("question", getquestion);
+    console.log("num", unique);
+  }, []);
+
+  useEffect(() => {
+    var elem = document.getElementById("Landing");
+    document.addEventListener("visibilitychange", () => {
+      elem.style.display = "none";
+    });
+  }, []);
+
   return (
-    <div className="Landing">
+    <div className="Landing" id="Landing">
+      <EndModal endmodal={endmodal} setEndModal={setEndModal} />
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -258,7 +286,14 @@ const Landing = () => {
         <div className="testTimer">
           {hour} : {minutes} : {seconds}
         </div>
-        <button className="endTestButton">End Test</button>
+        <button
+          className="endTestButton"
+          onClick={() => {
+            setEndModal(true);
+          }}
+        >
+          End Test
+        </button>
       </div>
 
       <div className="landingBody">
@@ -267,51 +302,20 @@ const Landing = () => {
           style={{ width: `${questionWidth}` }}
         >
           <div className="questionNumberContainer">
-            <span
-              className="questionNumber"
-              onClick={() => {
-                setQuestionWidth("70%");
-                setContent(true);
-              }}
-            >
-              1
-            </span>
-            <span
-              className="questionNumber"
-              onClick={() => {
-                setQuestionWidth("70%");
-                setContent(true);
-              }}
-            >
-              2
-            </span>
-            <span
-              className="questionNumber"
-              onClick={() => {
-                setQuestionWidth("70%");
-                setContent(true);
-              }}
-            >
-              3
-            </span>
-            <span
-              className="questionNumber"
-              onClick={() => {
-                setQuestionWidth("70%");
-                setContent(true);
-              }}
-            >
-              4
-            </span>
-            <span
-              className="questionNumber"
-              onClick={() => {
-                setQuestionWidth("70%");
-                setContent(true);
-              }}
-            >
-              5
-            </span>
+            {getquestion.map((data, index) => {
+              return (
+                <span
+                  className="questionNumber"
+                  onClick={() => {
+                    setQuestionWidth("70%");
+                    setContent(true);
+                    dispatch(addUniqueNumber(index));
+                  }}
+                >
+                  {index + 1}
+                </span>
+              );
+            })}
           </div>
           <div
             className="questionContentContainer"
@@ -326,25 +330,21 @@ const Landing = () => {
             >
               x
             </div>
+            <div className="detailedQuestionHeading">Question</div>
             <div className="detailedQuestion">
-              1.sum of three numbers asdasdas asdasdsd asdasdasd asddasd asdasd
-              sad asdasdasdasdasd
+              {unique + 1}. {getquestion[unique].question}
             </div>
             <div className="detailedQuestionDescription">
-              asdasdsad sadasdasd asdasdsadasd sdasdasdasdasda asdasdasdasdasd
-              dasdasdasdasdasd asdasdaddddddddddddddddddddddddd
-              saaaaaaaaaaaaaaaaaa saaaaaaaaaaaaaaaaaaa
-              asddddddddddddddddddddddddddddd saaaaaaaaaaaa saaaaaaaaaaaaaaa
-              asds
+              {getquestion[unique].description}
             </div>
             <div className="samplesContainer">
               <div className="sampleInputContainer">
                 Sample Input
-                <div className="sample">25</div>
+                <div className="sample">{getquestion[unique].sampleInput}</div>
               </div>
               <div className="sampleOutputContainer">
                 Sample Output
-                <div className="sample">5</div>
+                <div className="sample">{getquestion[unique].sampleOutput}</div>
               </div>
             </div>
             <div className="detailedQuestionExplanation">
@@ -388,29 +388,60 @@ const Landing = () => {
               </div>
 
               <div
-                className="right-container flex flex-shrink-0 w-[30%] flex-col"
+                className="right-container flex flex-shrink-0 w-[100%] flex-row"
                 id="inputOutputDiv"
               >
-                <div className="flex flex-col items-end">
-                  <CustomInput
-                    customInput={customInput}
-                    setCustomInput={setCustomInput}
-                  />
-                  <button
-                    onClick={handleCompile}
-                    disabled={!code}
-                    className={classnames(
-                      "mt-4 bg-green-400 z-10 rounded-md  px-4 py-2 hover:shadow transition duration-200 text-white flex-shrink-0 font-semibold",
-                      !code ? "opacity-50" : ""
-                    )}
-                  >
-                    {processing ? "Processing..." : "Compile and Execute"}
-                  </button>
+                {" "}
+                <div className="inputOutputDiv">
+                  <div className="flex flex-col items-end w-full">
+                    <CustomInput
+                      customInput={customInput}
+                      setCustomInput={setCustomInput}
+                    />
+                    <button
+                      onClick={() => {
+                        handleCompile();
+                        setShowTestCases(true);
+                      }}
+                      disabled={!code}
+                      className={classnames(
+                        "mt-4 bg-green-400 z-10 rounded-md  px-4 py-2 hover:shadow transition duration-200 text-white flex-shrink-0 font-semibold",
+                        !code ? "opacity-50" : ""
+                      )}
+                    >
+                      {processing ? "Processing..." : "Compile and Execute"}
+                    </button>
+                  </div>
+                  <OutputWindow outputDetails={outputDetails} />
+                  {outputDetails && (
+                    <OutputDetails outputDetails={outputDetails} />
+                  )}
                 </div>
-                <OutputWindow outputDetails={outputDetails} />
-                {outputDetails && (
-                  <OutputDetails outputDetails={outputDetails} />
-                )}
+                <div className="resultsSubmitContainer">
+                  <div
+                    className="testCasesDiv"
+                    style={{ display: showtestcases ? "flex" : "none" }}
+                  >
+                    Test Results
+                    <div className="cases">
+                      <span>Cases</span>
+                      <span>Expected output</span>
+                      <span>Actual output</span>
+                      <span>Result</span>
+                    </div>
+                    <div className="case1">
+                      <span>case1</span>
+                      <span>5</span>
+                      <span>10</span>
+                      <span>fail X</span>
+                    </div>
+                    <div className="case1"></div>
+                    <div className="case1"></div>
+                    <div className="case1"></div>
+                    <div className="case1"></div>
+                  </div>
+                  <button className="submitButton"> Submit</button>
+                </div>
               </div>
             </div>
           </div>
