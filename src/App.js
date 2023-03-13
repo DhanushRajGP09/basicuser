@@ -4,6 +4,7 @@ import Landing from "./components/Landing";
 import Homepage from "./components/Homepage/Homepage";
 import TestEnd from "./components/TestEnd/TestEnd";
 import Login from "./components/Login/Login";
+import TestSelection from "./components/TestSelection/TestSelection";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Login />}></Route>
           <Route path="/instructionpage" element={<Homepage />}></Route>
           <Route path="/CodeCompiler" element={<Landing />}></Route>
+          <Route path="/selecttest" element={<TestSelection />}></Route>
           <Route path="/End" element={<TestEnd />}></Route>
         </Routes>
       </BrowserRouter>

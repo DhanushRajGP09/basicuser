@@ -12,11 +12,13 @@
   align-items: center;
   justify-content: space-between;
   background-color: #233752;
-  height: 5vh;
+  height: auto;
   width: 100%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
   font-size: 20px;
-  position: fixed;
-  z-index: 2;
+
+  z-index: 1;
   font-family: "Roboto", sans-serif;
   color: white;
   padding-left: 1%;

@@ -8,9 +8,11 @@
 }
 .Homepage {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   justify-content: space-between;
-  background-color: aliceblue;
+  align-items: center;
+  background-color: azure;
+  height: auto;
 }
 .instructionsPage {
   display: flex;
@@ -18,7 +20,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1%;
-  height: 80vh;
+  height: 70vh;
   background-color: white;
   width: 80%;
   margin-top: 5%;

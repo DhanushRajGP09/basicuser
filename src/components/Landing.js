@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addUniqueNumber,
   getQuestions,
+  getTests,
   getUniqueNumber,
 } from "../features/Questions/QuestionsSlice";
 
@@ -207,11 +208,30 @@ const Landing = () => {
       progress: undefined,
     });
   };
+  const handleClickQuestion = async (num) => {
+    console.log("num", num);
+    axios
+      .get("http://139.59.56.122:5000/api/user/get-default-code-for-question", {
+        qId: num,
+        language: "Python",
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert("invalid Qid");
+      });
+  };
+
+  const gettest = useSelector(getTests);
+
+  const gettesttime = gettest.testDuration.split(":");
 
   const [completed, setCompleted] = useState(4);
-  const [hour, setHour] = useState(1);
-  const [minutes, setMinutes] = useState(1);
-  const [seconds, setSeconds] = useState(0);
+  const [hour, setHour] = useState(parseInt(gettesttime[0]));
+  const [minutes, setMinutes] = useState(parseInt(gettesttime[1]));
+  const [seconds, setSeconds] = useState(parseInt(gettesttime[2]));
   const [content, setContent] = useState(false);
   const [questionWidth, setQuestionWidth] = useState("4%");
   const navigate = useNavigate();
@@ -242,6 +262,7 @@ const Landing = () => {
   });
 
   const getquestion = useSelector(getQuestions);
+
   const unique = useSelector(getUniqueNumber);
 
   const dispatch = useDispatch();
@@ -310,6 +331,7 @@ const Landing = () => {
                     setQuestionWidth("70%");
                     setContent(true);
                     dispatch(addUniqueNumber(index));
+                    handleClickQuestion(getquestion[index]._id);
                   }}
                 >
                   {index + 1}
@@ -332,19 +354,21 @@ const Landing = () => {
             </div>
             <div className="detailedQuestionHeading">Question</div>
             <div className="detailedQuestion">
-              {unique + 1}. {getquestion[unique].question}
+              {unique + 1}. {getquestion[unique]?.questionName}
             </div>
             <div className="detailedQuestionDescription">
-              {getquestion[unique].description}
+              {getquestion[unique]?.questionStatement}
             </div>
             <div className="samplesContainer">
               <div className="sampleInputContainer">
                 Sample Input
-                <div className="sample">{getquestion[unique].sampleInput}</div>
+                <div className="sample">{getquestion[unique]?.sampleInput}</div>
               </div>
               <div className="sampleOutputContainer">
                 Sample Output
-                <div className="sample">{getquestion[unique].sampleOutput}</div>
+                <div className="sample">
+                  {getquestion[unique]?.sampleOutput}
+                </div>
               </div>
             </div>
             <div className="detailedQuestionExplanation">
@@ -358,7 +382,9 @@ const Landing = () => {
           </div>
         </div>
         <div className="codeCompiler">
-          <div className="selectedQuestionDiv">1.sum of three numbers</div>
+          <div className="selectedQuestionDiv">
+            {unique + 1}. {getquestion[unique]?.questionName}
+          </div>
           <div className="selectedQuestionCompilerDiv">
             <div className="flex flex-row">
               <div className="px-4 py-2 ">
