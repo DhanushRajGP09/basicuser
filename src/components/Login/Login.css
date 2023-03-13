@@ -1,0 +1,89 @@
+.loginPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: azure;
+  height: auto;
+  gap: 10%;
+}
+.loginHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #233752;
+  height: 5vh;
+  width: 100%;
+  font-size: 20px;
+  position: fixed;
+  z-index: 2;
+  font-family: "Roboto", sans-serif;
+  color: white;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+.loginHeaderDesc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 20%;
+  height: 100%;
+}
+.loginDiv {
+  display: flex;
+  height: 60vh;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10%;
+  flex-direction: column;
+  width: 27%;
+  background-color: white;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  padding: 2%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  border: 2px solid #233752;
+  border-radius: 5%;
+  color: #233752;
+}
+.emailPasswordDiv {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5%;
+  padding: 2%;
+  height: 65%;
+  width: 80%;
+  flex-direction: column;
+  border-radius: 10px;
+  font-size: 25px;
+  background-color: #233752;
+  margin-left: 10%;
+}
+.emailText {
+  display: flex;
+  font-size: 20px;
+  color: white;
+}
+.emailInput {
+  color: blue;
+  outline: none;
+  border: none;
+  font-size: 22px;
+  display: flex;
+  padding-left: 1%;
+  padding-right: 1%;
+  width: 100%;
+  align-items: center;
+  padding-top: 1%;
+  border-radius: 5px;
+  padding-bottom: 1%;
+}
+.loginButton {
+  background-color: coral;
+  padding: 2%;
+  margin-top: 15%;
+  color: white;
+  border-radius: 10px;
+  width: 100%;
+}

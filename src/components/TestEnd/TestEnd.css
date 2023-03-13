@@ -1,0 +1,8 @@
+.testEndPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: aliceblue;
+  font-size: 25px;
+  flex-direction: column;
+}

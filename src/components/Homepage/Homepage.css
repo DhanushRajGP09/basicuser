@@ -1,9 +1,45 @@
 .startTestButton {
-  background-color: black;
+  background-color: coral;
+  padding: 2%;
+  font-size: 15px;
+  width: 100%;
+  border-radius: 10px;
   color: white;
 }
 .Homepage {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: aliceblue;
+}
+.instructionsPage {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 1%;
+  height: 80vh;
+  background-color: white;
+  width: 80%;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-bottom: 5%;
+}
+.instructionsLeftContainer {
+  width: 78%;
+  height: 100%;
+  font-size: 25px;
+  overflow-y: scroll;
+  background-color: cadetblue;
+}
+.instructionsRightContainer {
+  width: 300px;
+
+  height: 30vh;
+  background-color: beige;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 1%;
 }

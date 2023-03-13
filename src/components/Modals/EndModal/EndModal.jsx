@@ -23,6 +23,9 @@ export default function EndModal(props) {
             <div className="createTestmodal-inner-content">
               Are You Sure?
               <span style={{ fontSize: "20px" }}>You want to end the test</span>
+              <span style={{ fontSize: "15px" }}>
+                (*warning: You cannot take the test again once you ended it)
+              </span>
               <div className="exitButtonDiv">
                 <button
                   className="exitNo"
