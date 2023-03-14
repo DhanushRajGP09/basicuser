@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addQuestions,
+  addTestStatus,
+  getTestStatus,
   getTests,
 } from "../../features/Questions/QuestionsSlice";
 import "./TestSelection.css";
@@ -23,6 +25,7 @@ export default function TestSelection() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("token"));
+  const testID = JSON.parse(localStorage.getItem("testid"));
 
   console.log(".");
 
@@ -31,7 +34,7 @@ export default function TestSelection() {
 
     axios
       .post(
-        `http://139.59.56.122:5000/api/user/take-test?testId=${gettest._id}`,
+        `http://139.59.56.122:5000/api/user/take-test?testId=${testID}`,
         {},
         {
           headers: {
@@ -44,13 +47,20 @@ export default function TestSelection() {
       .then(function (response) {
         console.log(response);
         dispatch(addQuestions(response.data.data.questions));
+        dispatch(addTestStatus("started"));
         navigate("/CodeCompiler");
       })
       .catch(function (error) {
         console.log(error);
-        alert("you don't have any test");
       });
   };
+  const teststatus = useSelector(getTestStatus);
+
+  useEffect(() => {
+    if (teststatus === "started") {
+      navigate("/CodeCompiler");
+    }
+  }, []);
 
   return (
     <div className="testSelectPage">

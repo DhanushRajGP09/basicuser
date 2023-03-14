@@ -36,6 +36,13 @@ export default function Login() {
     }
   }, []);
 
+  useEffect(() => {
+    const auth = localStorage.getItem("token");
+    if (auth) {
+      navigate("/instructionpage");
+    }
+  }, []);
+
   return (
     <div className="loginPage">
       <div className="loginHeader">

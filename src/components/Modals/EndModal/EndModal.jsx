@@ -2,9 +2,28 @@ import React from "react";
 import "./EndModal.css";
 import closemodal from "../../../Assets/Images/close.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  addQuestions,
+  addDefaultCode,
+  addTest,
+  addTestStatus,
+} from "../../../features/Questions/QuestionsSlice";
 
 export default function EndModal(props) {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/End");
+    dispatch(addTest({}));
+    dispatch(addTestStatus("ended"));
+    dispatch(addDefaultCode(""));
+    dispatch(addQuestions([]));
+  };
+
   return (
     <div>
       <div
@@ -38,7 +57,7 @@ export default function EndModal(props) {
                 <button
                   className="exitYes"
                   onClick={() => {
-                    navigate("/End");
+                    logout();
                   }}
                 >
                   Yes

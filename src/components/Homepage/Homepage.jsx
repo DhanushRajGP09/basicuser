@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./Homepage.css";
 import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
-import { addTest, getTests } from "../../features/Questions/QuestionsSlice";
+import {
+  addTest,
+  getTestStatus,
+  getTests,
+} from "../../features/Questions/QuestionsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Homepage() {
@@ -41,13 +45,22 @@ export default function Homepage() {
           dispatch(addTest(response.data.data[0]));
           navigate("/selecttest");
         }
+        if (response.data.success === false) {
+          window.location.reload();
+        }
       })
       .catch(function (error) {
         console.log(error);
-        alert("you don't have any test");
       });
   };
 
+  const teststatus = useSelector(getTestStatus);
+
+  useEffect(() => {
+    if (teststatus === "started") {
+      navigate("/CodeCompiler");
+    }
+  }, []);
   return (
     <div className="Homepage">
       <div className="loginHeader">

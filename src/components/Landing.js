@@ -19,8 +19,11 @@ import { useNavigate } from "react-router-dom";
 import EndModal from "./Modals/EndModal/EndModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addDefaultCode,
   addUniqueNumber,
+  getDefaultCode,
   getQuestions,
+  getTestStatus,
   getTests,
   getUniqueNumber,
 } from "../features/Questions/QuestionsSlice";
@@ -56,12 +59,11 @@ console.log(binarySearch(arr, target));
 `;
 
 const Landing = () => {
-  const [code, setCode] = useState(javascriptDefault);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
   const [theme, setTheme] = useState("cobalt");
-  const [language, setLanguage] = useState(languageOptions[0]);
+  const [language, setLanguage] = useState(languageOptions[37]);
   const [showtestcases, setShowTestCases] = useState(false);
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -212,17 +214,27 @@ const Landing = () => {
     console.log("num", num);
     axios
       .get("http://139.59.56.122:5000/api/user/get-default-code-for-question", {
-        qId: num,
-        language: "Python",
+        params: {
+          questionId: num,
+          language: "Python",
+        },
       })
       .then(function (response) {
         console.log(response);
+        console.log(response.data.data[0].defaultCode);
+        localStorage.setItem(
+          "defaultCode",
+          JSON.stringify(response.data.data[0].defaultCode)
+        );
+        dispatch(addDefaultCode(response.data.data[0].defaultCode));
       })
       .catch(function (error) {
         console.log(error);
         alert("invalid Qid");
       });
   };
+
+  const [code, setCode] = useState("");
 
   const gettest = useSelector(getTests);
 
@@ -278,7 +290,14 @@ const Landing = () => {
       elem.style.display = "none";
     });
   }, []);
+  const teststatus = useSelector(getTestStatus);
+  const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    if (teststatus === "started") {
+      navigate("/CodeCompiler");
+    }
+  }, []);
   return (
     <div className="Landing" id="Landing">
       <EndModal endmodal={endmodal} setEndModal={setEndModal} />
@@ -362,22 +381,20 @@ const Landing = () => {
             <div className="samplesContainer">
               <div className="sampleInputContainer">
                 Sample Input
-                <div className="sample">{getquestion[unique]?.sampleInput}</div>
+                <div className="sample">
+                  {getquestion[unique]?.testCase[0]?.input}
+                </div>
               </div>
               <div className="sampleOutputContainer">
                 Sample Output
                 <div className="sample">
-                  {getquestion[unique]?.sampleOutput}
+                  {getquestion[unique]?.testCase[0]?.output}
                 </div>
               </div>
             </div>
             <div className="detailedQuestionExplanation">
               <span style={{ fontWeight: "bold" }}>Explanation</span>
-              asdasdsad sadasdasd asdasdsadasd sdasdasdasdasda asdasdasdasdasd
-              dasdasdasdasdasd asdasdaddddddddddddddddddddddddd
-              saaaaaaaaaaaaaaaaaa saaaaaaaaaaaaaaaaaaa
-              asddddddddddddddddddddddddddddd saaaaaaaaaaaa saaaaaaaaaaaaaaa
-              asds
+              {getquestion[unique]?.testCase[0]?.explaination}
             </div>
           </div>
         </div>
@@ -412,6 +429,7 @@ const Landing = () => {
                   theme={theme.value}
                 />
               </div>
+              <div className="random"></div>
 
               <div
                 className="right-container flex flex-shrink-0 w-[100%] flex-row"

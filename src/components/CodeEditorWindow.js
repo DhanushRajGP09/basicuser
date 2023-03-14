@@ -1,9 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import MonacoEditor from "@monaco-editor/react";
+import { getDefaultCode } from "../features/Questions/QuestionsSlice";
+import { useSelector } from "react-redux";
 
 const CodeEditorWindow = ({ onChange, language, code, theme }) => {
-  const [value, setValue] = useState(code || "");
+  const getdefault = useSelector(getDefaultCode);
+  const defaultcode = JSON.parse(localStorage.getItem("defaultCode"));
+
+  const [value, setValue] = useState(defaultcode || "");
 
   const handleEditorChange = (value) => {
     setValue(value);
@@ -70,10 +75,10 @@ const CodeEditorWindow = ({ onChange, language, code, theme }) => {
       <MonacoEditor
         height="60vh"
         width={"90%"}
-        language={language || "javascript"}
+        language={language || "Python"}
         value={value}
         theme={theme}
-        defaultValue="// some comment"
+        defaultValue={defaultcode}
         onChange={handleEditorChange}
       />
     </div>
